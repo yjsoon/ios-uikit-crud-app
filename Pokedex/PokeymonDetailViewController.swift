@@ -11,7 +11,6 @@ class PokeymonDetailViewController: UITableViewController {
 
     // MARK: - Properties
     var pokeymon: Pokeymon
-    private let dataManager = PokeymonDataManager.shared
 
     // MARK: - Initializer
     init(pokeymon: Pokeymon) {
@@ -29,11 +28,6 @@ class PokeymonDetailViewController: UITableViewController {
         setupUI()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        reloadData()
-    }
-
     // MARK: - Setup
     private func setupUI() {
         title = "Details"
@@ -43,14 +37,6 @@ class PokeymonDetailViewController: UITableViewController {
             target: self,
             action: #selector(editTapped)
         )
-    }
-
-    private func reloadData() {
-        let allPokeymon = dataManager.loadPokeymon()
-        if let updated = allPokeymon.first(where: { $0.id == pokeymon.id }) {
-            pokeymon = updated
-            tableView.reloadData()
-        }
     }
 
     // MARK: - Table View Data Source
@@ -125,7 +111,7 @@ class PokeymonDetailViewController: UITableViewController {
 
 // MARK: - PokeymonFormViewControllerDelegate
 extension PokeymonDetailViewController: PokeymonFormViewControllerDelegate {
-    func didSavePokeymon() {
-        reloadData()
+    func didUpdatePokeymon(_ pokeymon: Pokeymon) {
+        tableView.reloadData()
     }
 }

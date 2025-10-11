@@ -31,7 +31,7 @@ enum PokeymonType: String, Codable, CaseIterable {
     }
 }
 
-struct Pokeymon: Codable, Identifiable {
+class Pokeymon: Codable, Identifiable {
     let id: UUID
     var name: String
     var type: PokeymonType

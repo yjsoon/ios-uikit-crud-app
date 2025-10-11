@@ -7,11 +7,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ListViewController: UIViewController {
 
     // MARK: - Properties
     private var pokeymon: [Pokeymon] = []
-    private let dataManager = PokeymonDataManager.shared
 
     private let tableView: UITableView = {
         let table = UITableView()
@@ -24,12 +23,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        loadData()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        loadData()
     }
 
     // MARK: - Setup
@@ -72,11 +65,6 @@ class ViewController: UIViewController {
         ])
     }
 
-    private func loadData() {
-        pokeymon = dataManager.loadPokeymon()
-        tableView.reloadData()
-    }
-
     // MARK: - Actions
     @objc private func addButtonTapped() {
         let formVC = PokeymonFormViewController()
@@ -87,7 +75,7 @@ class ViewController: UIViewController {
 }
 
 // MARK: - UITableViewDataSource
-extension ViewController: UITableViewDataSource {
+extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return pokeymon.count
     }
@@ -106,7 +94,7 @@ extension ViewController: UITableViewDataSource {
 }
 
 // MARK: - UITableViewDelegate
-extension ViewController: UITableViewDelegate {
+extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
@@ -117,7 +105,6 @@ extension ViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            dataManager.deletePokeymon(at: indexPath.row)
             pokeymon.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
@@ -133,8 +120,10 @@ extension ViewController: UITableViewDelegate {
 }
 
 // MARK: - PokeymonFormViewControllerDelegate
-extension ViewController: PokeymonFormViewControllerDelegate {
-    func didSavePokeymon() {
-        loadData()
+extension ListViewController: PokeymonFormViewControllerDelegate {
+    func didAddPokeymon(_ pokeymon: Pokeymon) {
+        self.pokeymon.append(pokeymon)
+        tableView.reloadData()
     }
+
 }
