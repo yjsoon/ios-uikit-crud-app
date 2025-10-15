@@ -126,4 +126,7 @@ extension ListViewController: PokeymonFormViewControllerDelegate {
         tableView.reloadData()
     }
 
+    func didUpdatePokeymon(_ pokeymon: Pokeymon) {
+        tableView.reloadData()
+    }
 }

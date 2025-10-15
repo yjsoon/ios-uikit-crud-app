@@ -5,9 +5,9 @@
 //  Created by Claude Code
 //
 
-import Foundation
+import UIKit
 
-enum PokeymonType: String, Codable, CaseIterable {
+enum PokeymonType: String, CaseIterable {
     case fire
     case water
     case earth
@@ -31,16 +31,14 @@ enum PokeymonType: String, Codable, CaseIterable {
     }
 }
 
-class Pokeymon: Codable, Identifiable {
-    let id: UUID
+class Pokeymon {
     var name: String
     var type: PokeymonType
     var attack: Int
     var defense: Int
     var dateCaptured: Date
 
-    init(id: UUID = UUID(), name: String, type: PokeymonType, attack: Int, defense: Int, dateCaptured: Date = Date()) {
-        self.id = id
+    init(name: String, type: PokeymonType, attack: Int, defense: Int, dateCaptured: Date = Date()) {
         self.name = name
         self.type = type
         self.attack = attack
